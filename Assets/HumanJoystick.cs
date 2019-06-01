@@ -16,7 +16,14 @@ public class HumanJoystick : MonoBehaviour
     public GameObject headSpot;
     public GameObject deadZone;
     public GameObject liveZone;
+    private Rigidbody rb;
     // Start is called before the first frame update
+
+    void Awake()
+    {
+        rb = gameObject.GetComponent<Rigidbody>();
+    }
+
     void Start()
     {
         headTransform = SteamVRCamera.gameObject.transform;
@@ -95,8 +102,25 @@ public class HumanJoystick : MonoBehaviour
         else
         {
             speed = (livezoneRadius - deadzoneRadius) * speedFactor;
-        }
-        transform.position += (diff * speed) * Time.deltaTime;
+        }        
         DebugText.text += "Speed = " + speed;
+        //MoveWithPosition(diff, speed);
+        //MoveWithVelocity(diff, speed);
+        MoveWithMovePosition(diff, speed);
+    }
+
+    void MoveWithPosition(Vector3 diff, float speed)
+    {
+        transform.position += (diff * speed) * Time.deltaTime;
+    }
+
+    void MoveWithVelocity(Vector3 diff, float speed)
+    {        
+        rb.velocity = diff * Time.deltaTime * speed;
+    }
+
+    void MoveWithMovePosition(Vector3 diff, float speed)
+    {
+        rb.MovePosition(transform.position + (diff * speed * Time.deltaTime));
     }
 }
