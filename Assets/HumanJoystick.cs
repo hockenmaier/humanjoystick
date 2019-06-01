@@ -56,7 +56,7 @@ public class HumanJoystick : MonoBehaviour
 
     void updateHeadSpot()
     {
-        headSpot.transform.position = new Vector3(headTransform.position.x, .05f, headTransform.position.z);
+        headSpot.transform.position = new Vector3(headTransform.position.x, headSpot.transform.position.y, headTransform.position.z);
     }
     void updateDeadZone()
     {
