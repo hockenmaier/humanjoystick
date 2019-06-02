@@ -22,6 +22,7 @@ public class HumanJoystick : MonoBehaviour
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        //rb = headSpot.gameObject.GetComponent<Rigidbody>();
     }
 
     void Start()
@@ -40,7 +41,7 @@ public class HumanJoystick : MonoBehaviour
         updateCenter();
         float distance = GetDistanceFromCenter();
         Vector3 diff = GetVectorFromCenter();
-        Debug.Log(distance);
+        //Debug.Log(distance);
         DebugText.text = "Distance from Center = " + distance;
         DebugText.text += System.Environment.NewLine;
         DebugText.text += "Vector from Center = " + diff;
@@ -105,8 +106,8 @@ public class HumanJoystick : MonoBehaviour
         }        
         DebugText.text += "Speed = " + speed;
         //MoveWithPosition(diff, speed);
-        //MoveWithVelocity(diff, speed);
-        MoveWithMovePosition(diff, speed);
+        MoveWithVelocity(diff, speed);
+        //MoveWithMovePosition(diff, speed);
     }
 
     void MoveWithPosition(Vector3 diff, float speed)
@@ -115,8 +116,9 @@ public class HumanJoystick : MonoBehaviour
     }
 
     void MoveWithVelocity(Vector3 diff, float speed)
-    {        
-        rb.velocity = diff * Time.deltaTime * speed;
+    {
+        float timespeed = Time.deltaTime * speed * 100;
+        rb.velocity = new Vector3(diff.x * timespeed, rb.velocity.y, diff.z * timespeed);
     }
 
     void MoveWithMovePosition(Vector3 diff, float speed)
